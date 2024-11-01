@@ -36,6 +36,8 @@ points = points/ntrials
 
 #print("Esiti:\n\n", points)
 
+np.save('dadi.npy',points)
+
 
 print ("          D=1           D=2           D=3")
 for i in ndas:
