@@ -28,7 +28,7 @@ class Battaglia:
         self.nds = []
         for sito in self.active:
             x,y,p = sito
-            self.nds.append([min(3,x),min(3,y)])
+            self.nds.append([min(3,x-1),min(3,y)])
 
     def battaglia(self):
         #aggiorna_attivi()
@@ -39,15 +39,18 @@ class Battaglia:
             
     def sparatoria(self, coppia, nds):
         naa,nad,p = coppia
-        nda,ndd = nds
-        persi = min(nda,ndd)
-        for k in range(persi+1):
-            x = int(naa - (persi - k))
-            y = int(nad - k)
-            self.campo[x,y] += p*self.dadi[nda-1][ndd-1][k]
+        if (naa<=1 or nad==0):
+            self.campo[naa,nad] = p 
+        else:
+            nda,ndd = nds
+            persi = min(nda,ndd)
+            for k in range(persi+1):
+                x = int(naa - (persi - k))
+                y = int(nad - k)
+                self.campo[x,y] += p*self.dadi[nda-1][ndd-1][k]
 
     def view_campo(self):
         # Usa np.array_str per formattare l'array con 2 cifre decimali
-        formatted_matrix = np.array_str(self.campo, precision=2, suppress_small=True)
+        formatted_matrix = np.array_str(self.campo, precision=3, suppress_small=True)
         print(formatted_matrix)
         return
