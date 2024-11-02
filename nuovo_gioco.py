@@ -21,17 +21,14 @@ class Battaglia:
     def aggiorna_attivi(self):
         # Prendi tutti elementi non nulli in campo e salvali in lista (na,nd,p).
         indices = np.argwhere(self.campo != 0)
-        print(indices)
-        self.active = [ np.concatenate((idx, [self.campo[tuple(idx)]])) for idx in indices]
-        print(self.active)
+        self.active = [[idx[0], idx[1], self.campo[tuple(idx)]] for idx in indices]
         return
 
     def dadi_massimi(self):
-        self.dadi = []
+        self.nds = []
         for sito in self.active:
-            print(sito)
             x,y,p = sito
-            self.nds.append([min(3,x),[min(3,y)]])
+            self.nds.append([min(3,x),min(3,y)])
 
     def battaglia(self):
         #aggiorna_attivi()
