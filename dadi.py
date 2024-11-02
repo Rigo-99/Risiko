@@ -28,7 +28,7 @@ for a1 in esiti:
                         for i in ndas:
                             for j in ndds:
                                 punti = sum([1 for a, d in zip(aa[i-1], dd[j-1]) if ((a > d) and ((a!=0) and (d!=0)))])
-                                points[i-1,j-1,punti] = points[i-1,j-1,punti]+1
+                                points[i-1,j-1,punti] += 1
 
 ntrials = 6**6
 
