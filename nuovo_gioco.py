@@ -24,11 +24,13 @@ class Battaglia:
         self.active = [[idx[0], idx[1], self.campo[tuple(idx)]] for idx in indices]
         return
 
+
     def dadi_massimi(self):
         self.nds = []
         for sito in self.active:
             x,y,p = sito
             self.nds.append([min(3,x-1),min(3,y)])
+
 
     def battaglia(self):
         #aggiorna_attivi()
@@ -40,7 +42,7 @@ class Battaglia:
     def sparatoria(self, coppia, nds):
         naa,nad,p = coppia
         if (naa<=1 or nad==0):
-            self.campo[naa,nad] = p 
+            self.campo[naa,nad] += p 
         else:
             nda,ndd = nds
             persi = min(nda,ndd)
@@ -49,8 +51,22 @@ class Battaglia:
                 y = int(nad - k)
                 self.campo[x,y] += p*self.dadi[nda-1][ndd-1][k]
 
+
+    def guerra_maxi(self):
+        for _ in range(max(self.campo.shape)):
+            self.aggiorna_attivi()
+            self.dadi_massimi()
+            self.battaglia()
+        self.view_campo()
+
+
     def view_campo(self):
         # Usa np.array_str per formattare l'array con 2 cifre decimali
-        formatted_matrix = np.array_str(self.campo, precision=3, suppress_small=True)
+        formatted_matrix = np.array_str(self.campo, precision=5, suppress_small=True)
         print(formatted_matrix)
+        p_win = np.sum(self.campo[:,0])
+        p_lose = np.sum(self.campo[1,:])
+
+        print('terrotorio conquistato con probabilita\'',p_win)
+        print('battaglia persa con probabilita\'       ',p_lose)
         return
