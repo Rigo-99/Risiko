@@ -38,6 +38,9 @@ def start_war():
     global war
     war = ng.Battaglia(int(entry_num1.get()),int(entry_num2.get()))
     draw_matrix()
+    button_attacco.config(state='normal')
+    button_destino.config(state='normal')
+
 
 # Funzione per gestire il clic sul pulsante "Attacco"
 def on_attacco_click():
@@ -87,7 +90,7 @@ def draw_matrix():
             cell.bind("<Leave>", on_leave)
             #cell.bind("<Click>", print("CLICK!"))
 
-    label_result.config(text=f"Vittoria:{war.p_winning()} | Sconfitta:{war.p_losing()}")
+    label_result.config(text=f"Vittoria:{war.p_winning():.2f} | Sconfitta:{war.p_losing():.2f}")
 
 
 
@@ -95,14 +98,14 @@ def draw_matrix():
 button_frame = tk.Frame(root)
 button_frame.pack(pady=10)
 
-button_attacco = tk.Button(button_frame, text="Attacco", command=on_attacco_click, state="normal")
+button_attacco = tk.Button(button_frame, text="Attacco", command=on_attacco_click, state="disabled")
 button_attacco.grid(row=0, column=0, padx=5)
 
-button_destino = tk.Button(button_frame, text="Destino", command=on_destino_click, state="normal")
+button_destino = tk.Button(button_frame, text="Destino", command=on_destino_click, state="disabled")
 button_destino.grid(row=0, column=1, padx=5)
 
 # Etichetta per mostrare il valore della cella
-label_value = tk.Label(root, text="Valore:", font=("Arial", 12))
+label_value = tk.Label(root, text="", font=("Arial", 12))
 label_value.pack(pady=10)
 
 # Frame per la griglia della matrice con dimensione fissa
@@ -129,7 +132,7 @@ button_generate_matrix = tk.Button(input_frame, text="Nuova battaglia", command=
 button_generate_matrix.grid(row=0, column=4, padx=10)
 
 # Etichetta per mostrare messaggi o errori
-label_result = tk.Label(root, text="Inserisci le dimensioni della matrice e premi 'Leggi Valori'", font=("Arial", 12))
+label_result = tk.Label(root, text="Inserisci armate di attacco e difesa", font=("Arial", 12))
 label_result.pack(pady=10)
 
 # Avvio del loop dell'interfaccia grafica
