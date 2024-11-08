@@ -48,8 +48,10 @@ def on_attacco_click():
 
 # Funzione per gestire il clic sul pulsante "Destino"
 def on_destino_click():
-    pass
-
+    war.decadi()
+    label_result.config(text = f"A={war.outcome[0]} | D={war.outcome[1]}")
+    war.post_decadimento()
+    draw_matrix()
 
 
 
@@ -74,7 +76,10 @@ def draw_matrix():
     # Ricrea la griglia colorata per la nuova matrice
     for i in range(num1):
         for j in range(num2):
-            color = get_color(matr[i][j], custom_colormap)
+            if (i==0 or (i==1 and j==0)):
+               color = '#BBBBBB'
+            else:
+                color = get_color(matr[i][j], custom_colormap)
             cell = tk.Label(frame, width=cell_size // 10, height=cell_size // 20,
                             bg=color, borderwidth=1, relief="solid")
             cell.grid(row=i, column=j, padx=1, pady=1)
@@ -82,7 +87,7 @@ def draw_matrix():
             cell.bind("<Leave>", on_leave)
             #cell.bind("<Click>", print("CLICK!"))
 
-    label_result.config(text=f"Matrice di {num1} x {num2} generata con successo.")
+    label_result.config(text=f"Vittoria:{war.p_winning()} | Sconfitta:{war.p_losing()}")
 
 
 
@@ -109,18 +114,18 @@ frame.pack()
 input_frame = tk.Frame(root)
 input_frame.pack(pady=10)
 
-label_num1 = tk.Label(input_frame, text="Numero 1:")
+label_num1 = tk.Label(input_frame, text="Attacco")
 label_num1.grid(row=0, column=0, padx=5)
-entry_num1 = tk.Entry(input_frame, width=5)  # Larghezza ridotta
+entry_num1 = tk.Entry(input_frame, width=5)
 entry_num1.grid(row=0, column=1, padx=5)
 
-label_num2 = tk.Label(input_frame, text="Numero 2:")
+label_num2 = tk.Label(input_frame, text="Difesa:")
 label_num2.grid(row=0, column=2, padx=5)
-entry_num2 = tk.Entry(input_frame, width=5)  # Larghezza ridotta
+entry_num2 = tk.Entry(input_frame, width=5)
 entry_num2.grid(row=0, column=3, padx=5)
 
 # Pulsante per generare la matrice
-button_generate_matrix = tk.Button(input_frame, text="Leggi Valori", command=start_war)
+button_generate_matrix = tk.Button(input_frame, text="Nuova battaglia", command=start_war)
 button_generate_matrix.grid(row=0, column=4, padx=10)
 
 # Etichetta per mostrare messaggi o errori
