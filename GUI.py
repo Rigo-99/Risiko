@@ -52,7 +52,7 @@ def on_attacco_click():
 # Funzione per gestire il clic sul pulsante "Destino"
 def on_destino_click():
     war.decadi()
-    label_result.config(text = f"A={war.outcome[0]} | D={war.outcome[1]}")
+    label_result.config(text = f"A:{war.outcome[0]} | D:{war.outcome[1]}")
     war.post_decadimento()
     draw_matrix()
 
@@ -79,15 +79,19 @@ def draw_matrix():
     # Ricrea la griglia colorata per la nuova matrice
     for i in range(num1):
         for j in range(num2):
-            if (i==0 or (i==1 and j==0)):
-               color = '#BBBBBB'
+            finto = (i==0 or (i==1 and j==0))
+            if finto:
+                color = '#BBBBBB'
+                bw=0
             else:
                 color = get_color(matr[i][j], custom_colormap)
+                bw=1
             cell = tk.Label(frame, width=cell_size // 10, height=cell_size // 20,
-                            bg=color, borderwidth=1, relief="solid")
+                            bg=color, borderwidth=bw, relief="solid")
             cell.grid(row=i, column=j, padx=1, pady=1)
-            cell.bind("<Enter>", lambda event, x=i, y=j: on_enter(event, x, y))
-            cell.bind("<Leave>", on_leave)
+            if not finto:
+                cell.bind("<Enter>", lambda event, x=i, y=j: on_enter(event, x, y))
+                cell.bind("<Leave>", on_leave)
             #cell.bind("<Click>", print("CLICK!"))
 
     label_result.config(text=f"Vittoria:{war.p_winning():.2f} | Sconfitta:{war.p_losing():.2f}")
