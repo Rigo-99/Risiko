@@ -18,7 +18,7 @@ class Battaglia:
 
         self.dadi = np.load('dadi.npy')
 
-        self.outcome = []
+        self.outcome = (n,m)
 
     def aggiorna_attivi(self):
         # Prendi tutti elementi non nulli in campo e salvali in lista (na,nd,p).
@@ -60,10 +60,21 @@ class Battaglia:
             self.dadi_massimi()
             self.battaglia()
 
+
     def p_win(self):
         self.guerra_maxi()
         return(np.sum(self.campo[:,0]))
 
+
+    def p_winning(self):
+        return(np.sum(self.campo[:,0]))
+
+
+    def p_losing(self):
+        return(np.sum(self.campo[1,:]))
+
+
+    # ABBASTANZA INUTILE!
     def media_punti(self):
         self.guerra_maxi()
         somma = 0.0
@@ -73,6 +84,7 @@ class Battaglia:
             somma += -d*self.campo[1,d]
 
         return(somma)
+
 
     def distribuzione(self):
         self.guerra_maxi()
@@ -89,10 +101,15 @@ class Battaglia:
 
 
     def decadi(self):
-        flattened_index = np.random.choice(prob_matrix.size, p=prob_matrix.ravel())
-        return np.unravel_index(flattened_index, prob_matrix.shape)
+        flattened_index = np.random.choice(self.campo.size, p=self.campo.ravel())
+        self.outcome = np.unravel_index(flattened_index, self.campo.shape)
 
-    def aggiorna(self):
+
+    def post_decadimento(self):
+        self.campo = np.zeros(self.campo.shape)
+        self.campo[self.outcome] = 1.
+        self.active=[[self.outcome[0],self.outcome[1],1.0]]
+
 
     def view_campo(self):
         # Usa np.array_str per formattare l'array con 2 cifre decimali
